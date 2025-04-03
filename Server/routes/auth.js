@@ -1,18 +1,19 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Generate JWT
+// Generate JWT token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d'
+    expiresIn: process.env.JWT_EXPIRE || '30d'
   });
 };
 
-// @route   POST /api/auth/signup
-router.post('/signup', async (req, res) => {
+// @route   POST /api/auth/register
+router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -36,15 +37,20 @@ router.post('/signup', async (req, res) => {
     // Create user
     const user = await User.create({ name, email, password });
 
+    // Generate token
+    const token = generateToken(user._id);
+
     res.status(201).json({
       success: true,
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
     });
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Registration error:', error);
     res.status(500).json({ 
       success: false,
       message: 'Server error',
@@ -84,12 +90,17 @@ router.post('/login', async (req, res) => {
       });
     }
 
+    // Generate token
+    const token = generateToken(user._id);
+
     res.json({
       success: true,
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -97,6 +108,23 @@ router.post('/login', async (req, res) => {
       success: false,
       message: 'Server error',
       error: error.message 
+    });
+  }
+});
+
+// @route   GET /api/auth/me
+router.get('/me', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
     });
   }
 });

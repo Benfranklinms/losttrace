@@ -6,13 +6,14 @@ import "react-toastify/dist/ReactToastify.css"
 import "./globals.css"
 import Navbar from "@/components/navbar"
 import { AuthProvider } from "@/context/auth-context"
+import { ThemeProvider } from "@/components/theme-provider"
+import Footer from "@/components/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Missing Person Finder",
-  description: "Help find missing people and reunite families",
-    generator: 'v0.dev'
+  title: "LostTrace | Reuniting Families",
+  description: "Help find missing people and reunite families through our advanced tracking platform",
 }
 
 export default function RootLayout({
@@ -21,18 +22,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <AuthProvider>
-          <Navbar />
-          <main className="container mx-auto px-4 py-8">{children}</main>
-          <ToastContainer position="bottom-right" />
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <ToastContainer position="bottom-right" theme="colored" autoClose={4000} />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
 }
 
-
-
-import './globals.css'
