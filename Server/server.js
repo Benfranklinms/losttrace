@@ -52,13 +52,7 @@ app.use('/api/found', foundRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/notifications', notificationRoutes);
 
-// Test route for authentication
-app.get('/api/test-auth', protect, (req, res) => {
-  res.json({
-    success: true,
-    user: req.user
-  });
-});
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

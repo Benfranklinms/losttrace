@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+coverage/
+.out/
+.cache/
+.next/
+.vercel/
+*.tsbuildinfo
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.pdb
+*.db-wal
+*.db-shm
+
+# Misc
+!.github/workflows/  # Keep GitHub Actions workflows
