@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
@@ -73,10 +74,12 @@ export default function HeroSection() {
             <div className="relative z-10 bg-gradient-to-tr from-primary to-primary/80 rounded-2xl p-1">
               <div className="bg-background rounded-xl overflow-hidden">
                 <div className="aspect-[4/3] bg-muted relative">
-                  <img
+                  <Image
                     src="/placeholder.svg?height=600&width=800"
                     alt="LostTrace Platform"
-                    className="w-full h-full object-cover"
+                    className="object-cover"
+                    width={800}
+                    height={600}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
                     <div className="text-white">
