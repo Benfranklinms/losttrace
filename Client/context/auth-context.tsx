@@ -38,33 +38,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       })
-
+  
       const data = await response.json()
-
+  
       if (!response.ok) {
-        throw new Error(data.message || "Login failed")
+        throw new Error(data.message || data.error || "Login failed")
       }
-
+  
       setUser(data)
       localStorage.setItem("user", JSON.stringify(data))
       toast.success("Login successful")
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      } else {
-        toast.error("An unexpected error occurred")
-      }
+      toast.error(error instanceof Error ? error.message : "Login failed")
       throw error
     } finally {
       setIsLoading(false)
     }
   }
-
   const signup = async (name: string, email: string, password: string) => {
     setIsLoading(true)
     try {

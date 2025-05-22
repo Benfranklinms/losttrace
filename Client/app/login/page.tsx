@@ -22,24 +22,9 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-
+  
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed")
-      }
-
-      login(data.user)
-      toast.success("Login successful!")
+      await login(email, password) // ✅ Let login() do the fetch
       router.push("/")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Login failed")
@@ -47,7 +32,6 @@ export default function Login() {
       setIsLoading(false)
     }
   }
-
   return (
     <div className="flex justify-center items-center min-h-[80vh]">
       <Card className="w-full max-w-md">

@@ -198,10 +198,12 @@ export default function Navbar() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src="" alt={user.name} />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
+                    <Avatar className="h-8 w-8">
+                        <AvatarImage src="" alt={user?.name || "User"} />
+                        <AvatarFallback>
+                          {user?.name?.charAt(0).toUpperCase() || "?"}
+                        </AvatarFallback>
+                    </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
